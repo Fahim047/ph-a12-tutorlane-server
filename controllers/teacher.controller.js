@@ -16,5 +16,7 @@ export const createTeacherRequest = asyncHandler(async (req, res) => {
 });
 export const getTeacherRequests = asyncHandler(async (req, res) => {
 	const teacherRequests = await TeacherRequest.find();
+	console.log('hello');
+	console.log(teacherRequests);
 	return res.status(200).json(teacherRequests);
 });

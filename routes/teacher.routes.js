@@ -6,7 +6,7 @@ import {
 
 const router = Router();
 
-router.route('/').get(getTeacherRequests);
+router.route('/requests').get(getTeacherRequests);
 router.route('/request').post(createTeacherRequest);
 
 export default router;

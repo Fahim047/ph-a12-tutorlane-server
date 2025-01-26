@@ -11,6 +11,10 @@ const UserSchema = new mongoose.Schema(
 			required: true,
 			unique: true,
 		},
+		photoURL: {
+			type: String,
+			default: 'https://placeholder.com/150',
+		},
 		password: {
 			type: String,
 		},
