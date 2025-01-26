@@ -1,3 +1,4 @@
+import TeacherRequest from '../models/teacherRequest.model.js';
 import User from '../models/user.model.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
@@ -51,4 +52,47 @@ export const checkUserRole = asyncHandler(async (req, res) => {
 	}
 
 	return res.status(404).json({ message: 'User not found' });
+});
+export const createTeacherRequest = asyncHandler(async (req, res) => {
+	const { name, email, image, experience, title, category } = req.body;
+	await TeacherRequest.create({
+		name,
+		email,
+		image,
+		experience,
+		title,
+		category,
+	});
+	return res.status(201).json({
+		message: 'Teacher request sent successfully.',
+	});
+});
+export const resubmitTeacherRequest = asyncHandler(async (req, res) => {
+	const { email, experience, title, category } = req.body;
+	const updatedTeacherRequest = await TeacherRequest.findOneAndUpdate(
+		{ email },
+		{
+			experience,
+			title,
+			category,
+			status: 'pending',
+		}
+	);
+	return res.status(200).json(updatedTeacherRequest);
+});
+export const getTeachRequestByUserId = asyncHandler(async (req, res) => {
+	const { userId } = req.query;
+	if (!id) {
+		return res.status(400).json({ message: 'User ID is required' });
+	}
+	const teachRequest = await TeacherRequest.findOne({ user: userId });
+	return res.status(200).json(teachRequest);
+});
+export const getTeachRequestByUserEmail = asyncHandler(async (req, res) => {
+	const { email } = req.query;
+	if (!email) {
+		return res.status(400).json({ message: 'User email is required' });
+	}
+	const teachRequest = await TeacherRequest.findOne({ email });
+	return res.status(200).json(teachRequest);
 });
