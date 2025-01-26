@@ -14,6 +14,11 @@ const UserSchema = new mongoose.Schema(
 		password: {
 			type: String,
 		},
+		status: {
+			type: String,
+			enum: ['pending', 'approved', 'rejected'],
+			default: 'pending',
+		},
 		role: {
 			type: String,
 			enum: ['student', 'teacher', 'admin'],
