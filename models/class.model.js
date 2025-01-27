@@ -13,16 +13,25 @@ const ClassSchema = new mongoose.Schema(
 		price: {
 			type: Number,
 			required: true,
+			min: [5, 'Price must be at least $5'],
 		},
 		thumbnail: {
 			type: String,
 			required: true,
 		},
-		teacher: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+		teacherName: {
+			type: String,
 			required: true,
 		},
+		teacherEmail: {
+			type: String,
+			required: true,
+		},
+		// teacher: {
+		// 	type: mongoose.Schema.Types.ObjectId,
+		// 	ref: 'User',
+		// 	required: true,
+		// },
 		status: {
 			type: String,
 			enum: ['pending', 'approved', 'rejected'],
