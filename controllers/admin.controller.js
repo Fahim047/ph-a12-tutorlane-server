@@ -2,6 +2,7 @@ import Class from '../models/class.model.js';
 import TeacherRequest from '../models/teacherRequest.model.js';
 import User from '../models/user.model.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { removeMongoDBIdFromArray } from '../utils/mongo-utils.js';
 
 export const getTeacherRequests = asyncHandler(async (req, res) => {
 	const teacherRequests = await TeacherRequest.find().lean();
@@ -43,4 +44,8 @@ export const approveClass = asyncHandler(async (req, res) => {
 	classToApprove.status = 'approved';
 	await classToApprove.save();
 	return res.status(200).json({ message: 'Class approved' });
+});
+export const getAllUsers = asyncHandler(async (req, res) => {
+	const users = await User.find().lean();
+	return res.status(200).json(removeMongoDBIdFromArray(users));
 });
