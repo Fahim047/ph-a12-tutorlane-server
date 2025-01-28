@@ -12,4 +12,5 @@ router.route('/').get(getApprovedClasses);
 router.route('/:id').get(getClassDetailsById);
 router.route('/:id/payment').post(processPayment);
 router.route('/:id/assignments').get(getAssignmentsByClassId);
+
 export default router;

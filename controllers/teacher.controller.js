@@ -60,3 +60,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
 		message: 'Assignment created successfully.',
 	});
 });
+export const getTotalSubmissions = asyncHandler(async (req, res) => {
+	const totalSubmissions = await Submission.countDocuments();
+	return res.status(200).json({ totalSubmissions });
+});

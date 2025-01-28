@@ -4,6 +4,7 @@ import {
 	createClass,
 	deleteTeacherClass,
 	getTeacherClasses,
+	getTotalSubmissions,
 	updateTeacherClassDetails,
 } from '../controllers/teacher.controller.js';
 
@@ -15,5 +16,6 @@ router
 	.patch(updateTeacherClassDetails)
 	.delete(deleteTeacherClass);
 router.route('/classes/:id/assignments').post(createAssignment);
+router.route('/totalSubmissions').get(getTotalSubmissions);
 
 export default router;
