@@ -1,6 +1,7 @@
 import Assignment from '../models/assignment.model.js';
 import Class from '../models/class.model.js';
 import Enrollment from '../models/enrollment.model.js';
+import Feedback from '../models/feedback.model.js';
 import Payment from '../models/payment.model.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import {
@@ -54,11 +55,21 @@ export const getAssignmentsByClassId = asyncHandler(async (req, res) => {
 	const assignments = await Assignment.find({ class: id }).lean();
 	return res.status(200).json(removeMongoDBIdFromArray(assignments));
 });
-
 export const getPopularClasses = asyncHandler(async (req, res) => {
 	const popularClasses = await Class.find()
 		.sort({ totalEnrollments: -1 })
 		.limit(6);
 
 	return res.status(200).json(popularClasses);
+});
+export const submitFeedback = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	const { rating, feedback, userId } = req.body;
+	const newFeedback = await Feedback.create({
+		rating,
+		feedback,
+		student: userId,
+		class: id,
+	});
+	return res.status(201).json({ message: 'Thank you for your feedback!' });
 });

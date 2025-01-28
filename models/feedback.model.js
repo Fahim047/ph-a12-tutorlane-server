@@ -12,13 +12,13 @@ const FeedbackSchema = new mongoose.Schema(
 			ref: 'Class',
 			required: true,
 		},
-		ratings: {
+		rating: {
 			type: Number,
 			required: true,
 			min: 1,
 			max: 5,
 		},
-		description: {
+		feedback: {
 			type: String,
 			trim: true,
 		},

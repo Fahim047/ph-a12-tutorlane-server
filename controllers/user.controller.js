@@ -99,7 +99,6 @@ export const getTeachRequestByUserEmail = asyncHandler(async (req, res) => {
 	return res.status(200).json(teachRequest);
 });
 export const getWebsiteStats = asyncHandler(async (req, res) => {
-	console.log('heelo');
 	const totalUsers = await User.countDocuments();
 	const classes = await Class.find({ status: 'approved' });
 	const totalEnrollments = await Enrollment.countDocuments();
