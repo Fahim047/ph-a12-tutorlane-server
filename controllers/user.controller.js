@@ -1,3 +1,5 @@
+import Class from '../models/class.model.js';
+import Enrollment from '../models/enrollment.model.js';
 import TeacherRequest from '../models/teacherRequest.model.js';
 import User from '../models/user.model.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
@@ -95,4 +97,16 @@ export const getTeachRequestByUserEmail = asyncHandler(async (req, res) => {
 	}
 	const teachRequest = await TeacherRequest.findOne({ email });
 	return res.status(200).json(teachRequest);
+});
+export const getWebsiteStats = asyncHandler(async (req, res) => {
+	console.log('heelo');
+	const totalUsers = await User.countDocuments();
+	const classes = await Class.find({ status: 'approved' });
+	const totalEnrollments = await Enrollment.countDocuments();
+	const stats = {
+		totalUsers,
+		totalClasses: classes.length,
+		totalEnrollments,
+	};
+	return res.status(200).json(stats);
 });

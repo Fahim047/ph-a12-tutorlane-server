@@ -54,3 +54,11 @@ export const getAssignmentsByClassId = asyncHandler(async (req, res) => {
 	const assignments = await Assignment.find({ class: id }).lean();
 	return res.status(200).json(removeMongoDBIdFromArray(assignments));
 });
+
+export const getPopularClasses = asyncHandler(async (req, res) => {
+	const popularClasses = await Class.find()
+		.sort({ totalEnrollments: -1 })
+		.limit(6);
+
+	return res.status(200).json(popularClasses);
+});
