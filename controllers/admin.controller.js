@@ -34,7 +34,7 @@ export const acceptTeacherRequest = asyncHandler(async (req, res) => {
 });
 export const getAllClasses = asyncHandler(async (req, res) => {
 	const classes = await Class.find().lean();
-	return res.status(200).json(classes);
+	return res.status(200).json(removeMongoDBIdFromArray(classes));
 });
 export const approveClass = asyncHandler(async (req, res) => {
 	const { id } = req.params;
@@ -45,6 +45,16 @@ export const approveClass = asyncHandler(async (req, res) => {
 	classToApprove.status = 'approved';
 	await classToApprove.save();
 	return res.status(200).json({ message: 'Class approved' });
+});
+export const rejectClass = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	const classToReject = await Class.findById(id);
+	if (!classToReject) {
+		return res.status(404).json({ error: 'Class not found' });
+	}
+	classToReject.status = 'rejected';
+	await classToReject.save();
+	return res.status(200).json({ message: 'Class rejected' });
 });
 export const getAllUsers = asyncHandler(async (req, res) => {
 	const users = await User.find().lean();
