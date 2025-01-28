@@ -1,3 +1,4 @@
+import Assignment from '../models/assignment.model.js';
 import Class from '../models/class.model.js';
 import Enrollment from '../models/enrollment.model.js';
 import Payment from '../models/payment.model.js';
@@ -47,4 +48,9 @@ export const processPayment = asyncHandler(async (req, res) => {
 	res
 		.status(200)
 		.json({ message: 'Payment and enrollment successful', payment });
+});
+export const getAssignmentsByClassId = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	const assignments = await Assignment.find({ class: id }).lean();
+	return res.status(200).json(removeMongoDBIdFromArray(assignments));
 });

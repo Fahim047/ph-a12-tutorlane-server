@@ -1,3 +1,4 @@
+import Assignment from '../models/assignment.model.js';
 import Class from '../models/class.model.js';
 import TeacherRequest from '../models/teacherRequest.model.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
@@ -44,4 +45,18 @@ export const deleteTeacherClass = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 	await Class.findByIdAndDelete(id);
 	return res.status(200).json({ message: 'Class deleted successfully' });
+});
+export const createAssignment = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	const { title, description, deadline } = req.body;
+	await Assignment.create({
+		class: id,
+		title,
+		description,
+		deadline,
+	});
+	await Class.findByIdAndUpdate(id, { $inc: { totalAssignments: 1 } });
+	return res.status(201).json({
+		message: 'Assignment created successfully.',
+	});
 });

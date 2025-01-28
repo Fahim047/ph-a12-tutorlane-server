@@ -41,6 +41,10 @@ const ClassSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
+		totalAssignments: {
+			type: Number,
+			default: 0,
+		},
 	},
 	{
 		timestamps: true,

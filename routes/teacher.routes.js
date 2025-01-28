@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+	createAssignment,
 	createClass,
 	deleteTeacherClass,
 	getTeacherClasses,
@@ -13,5 +14,6 @@ router
 	.route('/classes/:id')
 	.patch(updateTeacherClassDetails)
 	.delete(deleteTeacherClass);
+router.route('/classes/:id/assignments').post(createAssignment);
 
 export default router;
