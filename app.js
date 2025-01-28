@@ -19,10 +19,12 @@ app.get('/', (req, res) => {
 
 // import Routers
 import adminRouter from './routes/admin.routes.js';
+import classRouter from './routes/class.routes.js';
 import teacherRouter from './routes/teacher.routes.js';
 import userRouter from './routes/user.routes.js';
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/teachers', teacherRouter);
 app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/classes', classRouter);
 
 export default app;
