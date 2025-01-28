@@ -16,6 +16,11 @@ const PaymentSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+		status: {
+			type: String,
+			enum: ['success', 'failed'],
+			default: 'success',
+		},
 		transactionId: {
 			type: String,
 			required: true,

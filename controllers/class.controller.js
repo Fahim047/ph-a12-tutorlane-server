@@ -1,4 +1,6 @@
 import Class from '../models/class.model.js';
+import Enrollment from '../models/enrollment.model.js';
+import Payment from '../models/payment.model.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import {
 	removeMongoDBIdFromArray,
@@ -16,4 +18,33 @@ export const getClassDetailsById = asyncHandler(async (req, res) => {
 		return res.status(404).json({ error: 'Class not found' });
 	}
 	return res.status(200).json(removeMongoDBIdFromObject(classDetails));
+});
+export const processPayment = asyncHandler(async (req, res) => {
+	const { userId, classId, cardNumber, amount } = req.body;
+	if (cardNumber !== '4242 4242 4242 4242') {
+		return res.status(400).json({ message: 'Invalid card details' });
+	}
+
+	const payment = await Payment.create({
+		student: userId,
+		class: classId,
+		amount,
+		status: 'success',
+		transactionId: crypto.randomUUID(),
+	});
+
+	await Enrollment.create({
+		student: userId,
+		class: classId,
+		enrollmentDate: new Date(),
+	});
+
+	await Class.findByIdAndUpdate(classId, {
+		$inc: {
+			totalEnrollments: 1,
+		},
+	});
+	res
+		.status(200)
+		.json({ message: 'Payment and enrollment successful', payment });
 });
