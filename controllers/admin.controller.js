@@ -25,6 +25,7 @@ export const acceptTeacherRequest = asyncHandler(async (req, res) => {
 		return res.status(404).json({ error: 'Teacher request not found' });
 	}
 	teacherRequest.status = 'accepted';
+	await teacherRequest.save();
 	await User.findOneAndUpdate(
 		{ email: teacherRequest.email },
 		{ role: 'teacher' }
@@ -48,4 +49,17 @@ export const approveClass = asyncHandler(async (req, res) => {
 export const getAllUsers = asyncHandler(async (req, res) => {
 	const users = await User.find().lean();
 	return res.status(200).json(removeMongoDBIdFromArray(users));
+});
+export const makeAdmin = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	if (!id) {
+		return res.status(400).json({ message: 'Send user id in params' });
+	}
+	const user = await User.findById(id);
+	if (!user) {
+		return res.status(404).json({ error: 'User not found' });
+	}
+	user.role = 'admin';
+	await user.save();
+	return res.status(200).json({ message: 'The selected user is now an admin' });
 });
