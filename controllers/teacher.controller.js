@@ -34,7 +34,6 @@ export const getTeacherClasses = asyncHandler(async (req, res) => {
 });
 export const updateTeacherClassDetails = asyncHandler(async (req, res) => {
 	const { id } = req.params;
-	console.log(id, req.body);
 	const { title, description, price, thumbnail } = req.body;
 	await Class.findByIdAndUpdate(id, { title, description, price, thumbnail });
 	return res.status(200).json({
